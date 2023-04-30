@@ -1,0 +1,441 @@
+﻿
+@{
+    ViewBag.Title = "Registration Master";
+}
+
+<style>
+
+    input[type=text], input[type=password] {
+        width: 100%;
+        padding: 5px;
+        margin: 5px 0 22px 0;
+        display: inline-block;
+        border: none;
+        background: #f1f1f1;
+    }
+
+        input[type=text]:focus, input[type=password]:focus {
+            background-color: #ddd;
+            outline: none;
+        }
+
+    hr {
+        border: 1px solid #f1f1f1;
+        margin-bottom: 25px;
+    }
+
+    .registerbtn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 16px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
+    }
+
+        .registerbtn:hover {
+            opacity: 1;
+        }
+
+    a {
+        color: dodgerblue;
+    }
+
+    .clsDropDown {
+        width: 100%;
+        padding: 5px;
+        margin: 5px 0 22px 0;
+        display: inline-block;
+        border: none;
+        background: #f1f1f1;
+    }
+
+    .signin {
+        background-color: #f1f1f1;
+        text-align: center;
+    }
+
+    .float-container {
+        border: 3px solid #fff;
+        padding: 20px;
+    }
+
+    .float-child {
+        width: 50%;
+        float: left;
+        padding: 2px;
+    }
+
+    .clsErrorBorder {
+        border-color: red !important;
+    }
+
+    .GrdBtn {
+        display: inline-block;
+        margin: 5px;
+    }
+</style>
+
+<link href="~/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+<h2></h2>
+
+<div class="container">
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"> Add User</button>
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add User</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="container">
+
+                        <input type="hidden" id="HdnId" />
+
+                        <div class="float-child">
+                            <label for="name"><b>Name *</b></label><br />
+                            <input type="text" placeholder="Enter Name" name="Name" id="TxtName">
+                        </div>
+
+                        <div class="float-child">
+                            <label for="email"><b>Email *</b></label><br />
+                            <input type="text" placeholder="Enter Email" name="Email" id="TxtEmail" onblur="checkemail(this);" >
+                        </div>
+
+                        <div class="float-child">
+                            <label for="phone"><b>Phone</b></label><br />
+                            <input type="text" placeholder="Enter Phone" name="Phone" onkeypress="return keypress(event);" maxlength="15" id="TxtPhone">
+                        </div>
+
+                        <div class="float-child">
+                            <label for="address"><b>Address</b></label><br />
+                            <textarea type="text" placeholder="Enter Address" name="Address" class="clsDropDown" id="TxtAddress"></textarea>
+                        </div>
+
+                        <div class="float-child">
+                            <label for="State"><b>State *</b></label><br />
+                            <select id="ddlState" onchange="GetCityFromStateId();" class="clsDropDown"></select>
+                        </div>
+
+                        <div class="float-child">
+                            <label for="City"><b>City *</b></label><br />
+                            <select id="ddlCity" class="clsDropDown"></select>
+                        </div>
+
+                        <hr>
+                        <input type="checkbox" id="chktearm" name="chktearm" >
+                        <p>Are you agree with Terms & Conditions?</p>
+
+                        <button type="submit" class="registerbtn" onclick="SaveRegister();" >Register</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<br />
+<br />
+<div>
+    <table id="tblGrid" class="table" cellpadding="0" cellspacing="0"></table>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/SweetAlert/sweetalert-dev.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        GetState();
+        FillUserGrid();
+    });
+
+    function keypress(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+
+        if ((charCode != 43 && charCode != 45 && charCode != 47 && charCode != 32) && charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+
+    function GetState() {
+
+        $.ajax({
+            type: "GET",
+            url: "/Home/GetState",
+            async: false,
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+
+            success: function (result) {
+                if (result.length > 0) {
+                    $('#ddlState').find('option').remove().end().append($("<option></option>").val(0).html("Select State"));
+                    for (i = 0; i < result.length; i++) {
+                        $("#ddlState").append($("<option></option>").val(result[i].Id).html(result[i].StateName));
+                    }
+                }
+            }
+        });
+
+    }
+
+    function GetCityFromStateId() {
+
+        if ($("#ddlState").val() != 0) {
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetCityFromStateId?StateId=" + $("#ddlState").val(),
+                async: false,
+                data:'{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+                    if (result.length > 0) {
+                        $('#ddlCity').find('option').remove().end().append($("<option></option>").val(0).html("Select City"));
+                        for (i = 0; i < result.length; i++) {
+                            $("#ddlCity").append($("<option></option>").val(result[i].Id).html(result[i].CityName));
+                        }
+                    }
+                }
+            });
+        }
+
+    }
+
+    function FillUserGrid() {
+
+        var Id = 0;
+        if ($("#HdnId").val() == "") {
+            Id = 0;
+        } else {
+            Id = $("#HdnId").val();
+        }
+
+        var GridData = "";
+        $("#tblGrid").html("");
+
+        $.ajax({
+            type: "GET",
+            url: "/Home/GetUser",
+            async: false,
+            data: {
+                "Id": Id
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+
+            success: function (result) {
+                if (result.length > 0) {
+                    for (i = 0; i < result.length; i++) {
+                        GridData = GridData +
+                            "<tr>" +
+                            "<td>" + result[i].SrNo + "</td>" +
+                            "<td>" + result[i].Name + "</td>" +
+                            "<td>" + result[i].Email + "</td>" +
+                            "<td>" + result[i].Phone + "</td>" +
+                            "<td>" + result[i].Address + "</td>" +
+                            "<td>" + result[i].StateName + "</td>" +
+                            "<td>" + result[i].CityName + "</td>" +
+                            "<td><input type='button' id=" + result[i].Id + " value='Delete' class='ClsDeletRow GrdBtn' onclick='RemoveUserData(this);' />  <input type='button' id=" + result[i].Id + " value='Edit' class='ClsEditRow GrdBtn' onclick='EditUserData(this);' /> </td>"
+                        "</tr>";
+                    }
+                }
+            }
+        });
+
+        $("#tblGrid").html(
+            "<thead>" +
+            "<tr>" +
+
+            "<th style='width:80px'>Sr No.</th>" +
+            "<th style='width:150px'>Name</th>" +
+            "<th style='width:150px'>Email</th>" +
+            "<th style='width:150px'>Phone</th>" +
+            "<th style='width:200px'>Address</th>" +
+            "<th style='width:150px'>StateName</th>" +
+            "<th style='width:150px'>CityName</th>" +
+            "<th style='width:150px'>Action</th>" +
+            "</tr>" +
+            "</thead>" +
+            "<tbody class='ClsBody'>" + GridData + " </tbody> "
+        );
+
+    }
+
+    function validation() {
+
+        var ErrorMsg = [];
+        var cnt = "";
+
+        if ($('#TxtName').val() == '') {
+            ErrorMsg.push("Plaese Add Name");
+            cnt++;
+        }
+
+
+        if ($('#TxtEmail').val() == '') {
+            ErrorMsg.push("Plaese Add Email");
+            cnt++;
+        }
+
+        if ($('#ddlState').val() == "0") {
+            ErrorMsg.push("Plaese Select State");
+            cnt++;
+        }
+
+        if ($('#ddlCity').val() == "0") {
+            ErrorMsg.push("Plaese Select City");
+            cnt++;
+        }
+
+        if (document.getElementById("chktearm").checked == false) {
+            ErrorMsg.push("You must agree to the terms first.");
+            cnt++;
+        }
+        if (cnt > 0) {
+            swal("Error", ErrorMsg, "error");
+            return false;
+        }
+        else {
+
+            return true;
+        }
+
+    }
+
+    function SaveRegister() {
+
+        if (validation() == true) {
+            var Id = 0;
+            if ($("#HdnId").val() == "") {
+                Id = 0;
+            } else {
+                Id = $("#HdnId").val();
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/InsertUser",
+                data: {
+                    "Id": Id,
+                    "Name": $("#TxtName").val(),
+                    "Email": $("#TxtEmail").val(),
+                    "Phone": $("#TxtPhone").val(),
+                    "Address": $("#TxtAddress").val(),
+                    "StateId": $("#ddlState").val(),
+                    "CityId": $("#ddlCity").val()
+                },
+                async: false,
+                datatype: JSON,
+
+                success: function (result) {
+                    if (result == true) {
+                        swal({
+                            title: "Success",
+                            text: "Data saved !!!",
+                            type: "success",
+                            showCancelButton: false,
+                            closeOnConfirm: false,
+                            showLoaderOnConfirm: true,
+                        },
+                            function () {
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 100);
+                            });
+
+                    }
+                }
+            });
+        }
+
+    }
+
+    function RemoveUserData(e) {
+
+            if (e.id != null) {
+                var Id = e.id;
+                swal({
+                    title: "Are You Sure Want to Remove this record ?",
+                    showCancelButton: true,
+                    confirmButtonColor: "#906e3e",
+                    confirmButtonText: "Confirm",
+                    cancelButtonText: "Cancel",
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            $.ajax({
+                                url: "/Home/DeleteUser?Id=" + Id,
+                                data: {},
+                                type: "POST",
+                                contentType: "text/plain",
+                                dataType: "json",
+                                async: false,
+                                success: function (result) {
+                                    if (result == true) {
+                                        FillUserGrid();
+                                        swal("Success","Record remove successfully !!!","success");
+                                    }
+                                    else {
+                                        FillUserGrid();
+                                    }
+                                }
+                            });
+                        }
+                    });
+            }
+    }
+
+    function EditUserData(e) {
+        if (e.id != null) {
+            var Id = e.id;
+
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetUser",
+                async: false,
+                data: {
+                    "Id": Id
+                },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+
+                    if (result.length > 0) {
+                        $('#myModal').modal("show");
+                        $("#HdnId").val(result[0].Id);
+                        $("#TxtName").val(result[0].Name);
+                        $("#TxtEmail").val(result[0].Email);
+                        $("#TxtPhone").val(result[0].Phone);
+                        $("#TxtAddress").val(result[0].Address);
+                        $("#ddlState").val(result[0].StateId);
+                        GetCityFromStateId();
+                        $("#ddlCity").val(result[0].CityId);
+                        document.getElementById("chktearm").checked = true;
+                    }
+                }
+            });
+
+        }
+    }
+
+</script>
+

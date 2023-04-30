@@ -1,0 +1,9 @@
+D:\Demo\BusLib\bin\Debug\BusLib.dll
+D:\Demo\BusLib\bin\Debug\BusLib.pdb
+D:\Demo\BusLib\bin\Debug\DataLib.dll
+D:\Demo\BusLib\bin\Debug\DataLib.pdb
+D:\Demo\BusLib\obj\Debug\BusLib.csproj.AssemblyReference.cache
+D:\Demo\BusLib\obj\Debug\BusLib.csproj.CoreCompileInputs.cache
+D:\Demo\BusLib\obj\Debug\BusLib.csproj.CopyComplete
+D:\Demo\BusLib\obj\Debug\BusLib.dll
+D:\Demo\BusLib\obj\Debug\BusLib.pdb

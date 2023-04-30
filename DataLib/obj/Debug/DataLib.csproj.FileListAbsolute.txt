@@ -1,0 +1,6 @@
+D:\Demo\DataLib\bin\Debug\DataLib.dll
+D:\Demo\DataLib\bin\Debug\DataLib.pdb
+D:\Demo\DataLib\obj\Debug\DataLib.csproj.AssemblyReference.cache
+D:\Demo\DataLib\obj\Debug\DataLib.csproj.CoreCompileInputs.cache
+D:\Demo\DataLib\obj\Debug\DataLib.dll
+D:\Demo\DataLib\obj\Debug\DataLib.pdb

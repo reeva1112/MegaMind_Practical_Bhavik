@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{853A5E07-53D6-4FE6-B764-15946C279C4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusLib", "BusLib\BusLib.csproj", "{DC6690CC-E7E2-4691-9660-3E1DD55C74D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLib", "DataLib\DataLib.csproj", "{C878F84D-E765-4476-956A-8F1229EE0786}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{853A5E07-53D6-4FE6-B764-15946C279C4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{853A5E07-53D6-4FE6-B764-15946C279C4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{853A5E07-53D6-4FE6-B764-15946C279C4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{853A5E07-53D6-4FE6-B764-15946C279C4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC6690CC-E7E2-4691-9660-3E1DD55C74D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC6690CC-E7E2-4691-9660-3E1DD55C74D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC6690CC-E7E2-4691-9660-3E1DD55C74D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC6690CC-E7E2-4691-9660-3E1DD55C74D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C878F84D-E765-4476-956A-8F1229EE0786}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C878F84D-E765-4476-956A-8F1229EE0786}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C878F84D-E765-4476-956A-8F1229EE0786}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C878F84D-E765-4476-956A-8F1229EE0786}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
